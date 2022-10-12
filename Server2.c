@@ -24,82 +24,82 @@ exit(0);
 int main(int argc, char *argv[])
 {
 
-int sockfd, portno, n; // define ints
-int sockfd2, portno2, n2; // define ints
+int sockfd, portno, n;
+int sockfd2, portno2, n2; 
 
-struct sockaddr_in serv_addr; // define structs
-struct sockaddr_in serv_addr2; // define structs
-struct hostent *server; // defecines host address struct
+struct sockaddr_in serv_addr;
+struct sockaddr_in serv_addr2; 
+struct hostent *server; 
 
-char buffer[256]; // define buffer
-char buffer2[256]; // define buffer
+char buffer[256]; 
+char buffer2[256]; 
 
 if (argc < 4) {
 fprintf(stderr,"usage %s hostname port\n", argv[0]);
 exit(0); // exit main() function
 }
 
-portno = atoi(argv[2]); // get port number
-portno2 = atoi(argv[3]); // get port number
+portno = atoi(argv[2]); 
+portno2 = atoi(argv[3]); 
 
-sockfd = socket(AF_INET, SOCK_STREAM, 0); // create socket
+sockfd = socket(AF_INET, SOCK_STREAM, 0); 
 if (sockfd < 0)
-error("ERROR opening socket"); // if socket creation failed
-server = gethostbyname(argv[1]); // get server address
+error("ERROR opening socket"); 
+server = gethostbyname(argv[1]);
 if (server == NULL) {
-fprintf(stderr,"ERROR, no such host\n"); // if server address is not proper
+fprintf(stderr,"ERROR, no such host\n"); r
 exit(0); // exit main() function
 }
 bzero((char *) &serv_addr, sizeof(serv_addr));
-serv_addr.sin_family = AF_INET; // define address family (IPv4)
+serv_addr.sin_family = AF_INET; 
 bcopy((char *)server->h_addr,
 (char *)&serv_addr.sin_addr.s_addr,
-server->h_length); // copy byte data
-serv_addr.sin_port = htons(portno); // assign port
+server->h_length); /
+serv_addr.sin_port = htons(portno); 
 if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0)
-error("ERROR connecting"); // if connection failed
-printf("Please enter the message: "); //
-bzero(buffer,256); // fill buffer with zeros
-fgets(buffer,255, stdin); // read into buffer
+error("ERROR connecting"); 
+printf("Please enter the message: "); 
+bzero(buffer,256); // 
+fgets(buffer,255, stdin);
 strcpy(buffer2,buffer);
-n = write(sockfd,buffer,strlen(buffer)); // write the msg to socket
+n = write(sockfd,buffer,strlen(buffer)); 
 if (n < 0)
-error("ERROR writing to socket"); // writing failed
-bzero(buffer,256); // if writing succeed, zero the buffer
-n = read(sockfd,buffer,255); // read from socket into buffer
+error("ERROR writing to socket"); 
+bzero(buffer,256); 
+n = read(sockfd,buffer,255); 
 if (n < 0)
-error("ERROR reading from socket"); // if reading failed
-printf("%s\n",buffer); // print buffer
-close(sockfd); // close socket
+error("ERROR reading from socket");
+printf("%s\n",buffer); 
+close(sockfd); 
 
-sockfd2 = socket(AF_INET, SOCK_STREAM, 0); // create socket
+sockfd2 = socket(AF_INET, SOCK_STREAM, 0); 
 if (sockfd2 < 0)
-error("ERROR opening socket 2"); // if socket creation failed
+error("ERROR opening socket 2"); 
 if (server == NULL) {
-fprintf(stderr,"ERROR, no such host\n"); // if server address is not proper
+fprintf(stderr,"ERROR, no such host\n"); 
 exit(0); // exit main() function
 }
 bzero((char *) &serv_addr2, sizeof(serv_addr2));
 serv_addr2.sin_family = AF_INET; // define address family (IPv4)
 bcopy((char *)server->h_addr,
 (char *)&serv_addr2.sin_addr.s_addr,
-server->h_length); // copy byte data
-serv_addr2.sin_port = htons(portno2); // assign port
+server->h_length); 
+serv_addr2.sin_port = htons(portno2); 
 if (connect(sockfd2,(struct sockaddr2 *) &serv_addr2,sizeof(serv_addr2)) < 0)
-error("ERROR connecting"); // if connection failed
-//printf("Please enter the message: "); //
-//bzero(buffer2,256); // fill buffer with zeros
-//fgets(buffer2,255,stdin); // read into buffer
-n2 = write(sockfd2,buffer2,strlen(buffer2)); // write the msg to socket
+error("ERROR connecting"); 
+//printf("Please enter the message: ");
+//bzero(buffer2,256); 
+//fgets(buffer2,255,stdin); 
+n2 = write(sockfd2,buffer2,strlen(buffer2)); 
 if (n2 < 0)
-error("ERROR writing to socket"); // writing failed
-bzero(buffer2,256); // if writing succeed, zero the buffer
-n2 = read(sockfd2,buffer2,255); // read from socket into buffer
+error("ERROR writing to socket");
+bzero(buffer2,256);
+n2 = read(sockfd2,buffer2,255); 
 if (n2 < 0)
-error("ERROR reading from socket"); // if reading failed
-printf("%s\n",buffer2); // print buffer
-close(sockfd2); // close socket
+error("ERROR reading from socket"); 
+printf("%s\n",buffer2); 
+close(sockfd2);
 
 
-return 0; // exit main() function
+return 0; 
 }
