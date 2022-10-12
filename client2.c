@@ -6,7 +6,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
-// define function that deals with errors
+
 void error(const char *msg)
 {
 perror(msg);
